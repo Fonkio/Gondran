@@ -1,1 +1,1 @@
-Worker: java -cp src/main/java/fr/fonkio/App.java
+Worker: java -jar amau-1.0.jar
