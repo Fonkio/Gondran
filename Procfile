@@ -1,1 +1,1 @@
-Worker: java src/main/java/fr/fonkio/App.java
+Worker: java -cp src/main/java/fr/fonkio/App.java
