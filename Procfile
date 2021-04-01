@@ -1,1 +1,1 @@
-Worker: java -jar amau-1.0.jar
+Worker: java -jar amau-1.1.jar
