@@ -10,16 +10,17 @@ import java.net.URI;
 
 public class ClientAU extends WebSocketClient {
 
-    AmauListener amauListener;
-
-    public ClientAU(URI serverUri, AmauListener amauListener) {
+    CaptureEvent captureEvent;
+    private BotData data;
+    public ClientAU(URI serverUri, CaptureEvent captureEvent, BotData data) {
         super(serverUri);
-        this.amauListener = amauListener;
+        this.captureEvent = captureEvent;
+        this.data = data;
     }
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
-        PrivateChannel pc = amauListener.author.getUser().openPrivateChannel().complete();
+        PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
         pc.sendMessage("Connecté");
     }
 
@@ -27,16 +28,15 @@ public class ClientAU extends WebSocketClient {
     public void onMessage(String s) {
         try {
             JSONObject jsonObject = new JSONObject(s);
-            System.out.println(jsonObject);
             switch (jsonObject.getInt("EventID")) {
                 case 0:
-                    amauListener.state(new JSONObject(jsonObject.getString("EventData")));
+                    captureEvent.state(new JSONObject(jsonObject.getString("EventData")));
                     break;
                 case 1:
-                    amauListener.playerAction(new JSONObject(jsonObject.getString("EventData")));
+                    captureEvent.playerAction(new JSONObject(jsonObject.getString("EventData")));
                     break;
                 case 2:
-                    amauListener.code(new JSONObject(jsonObject.getString("EventData")));
+                    captureEvent.code(new JSONObject(jsonObject.getString("EventData")));
                     break;
             }
         } catch (JSONException e) {
@@ -46,13 +46,13 @@ public class ClientAU extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean b) {
-        PrivateChannel pc = amauListener.author.getUser().openPrivateChannel().complete();
+        PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
         pc.sendMessage("closed with exit code " + code + " additional info: " + reason);
     }
 
     @Override
     public void onError(Exception e) {
-        PrivateChannel pc = amauListener.author.getUser().openPrivateChannel().complete();
+        PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
         pc.sendMessage("Erreur voir console");
         e.printStackTrace();
     }

@@ -5,14 +5,11 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.RichPresence;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import org.java_websocket.client.WebSocketClient;
 
 import javax.security.auth.login.LoginException;
 import java.io.*;
 import java.net.URISyntaxException;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Hello world!
@@ -20,13 +17,16 @@ import java.util.Set;
  */
 public class App {
 
-    public static WebSocketClient client;
-    public static void main(String[] args) throws IOException, URISyntaxException, LoginException {
+    public static JDA dorald;
+
+    public static void main(String[] args) throws IOException, URISyntaxException, LoginException, InterruptedException {
         Set<GatewayIntent> intents = new HashSet<>();
         intents.addAll(EnumSet.allOf(GatewayIntent.class));
         JDA gondran = JDABuilder.create(System.getenv("TOKEN"),intents).setAutoReconnect(true).build();
+        gondran.awaitReady();
 
-        gondran.addEventListener(new AmauListener());
+
+        gondran.addEventListener(new GondranListener(new BotData()));
         Activity act = new Activity() {
             @Override
             public boolean isRich() {
@@ -58,7 +58,20 @@ public class App {
             }
         };
         gondran.getPresence().setActivity(act);
-        //dorald.getPresence().setActivity(act);
+        Timer timer;
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    dorald = JDABuilder.create(System.getenv("TOKENDORALD"),intents).setAutoReconnect(true).build();
+                    dorald.getPresence().setActivity(act);
+                } catch (LoginException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 30000);
+
     }
 
 
