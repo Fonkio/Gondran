@@ -156,7 +156,7 @@ public class GondranListener implements EventListener {
                 pc.sendMessage("Connecté ! ").queue();
             } catch (URISyntaxException e) {
                 PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
-                pc.sendMessage("Erreur ! Voir console");
+                pc.sendMessage("Erreur ! Voir console").queue();
                 e.printStackTrace();
             }
         } else if (message.startsWith(":add ")) {

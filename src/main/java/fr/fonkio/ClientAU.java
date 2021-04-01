@@ -21,7 +21,7 @@ public class ClientAU extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
         PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
-        pc.sendMessage("Connecté");
+        pc.sendMessage("Connecté").queue();
     }
 
     @Override
@@ -47,13 +47,13 @@ public class ClientAU extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean b) {
         PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
-        pc.sendMessage("closed with exit code " + code + " additional info: " + reason);
+        pc.sendMessage("closed with exit code " + code + " additional info: " + reason).queue();
     }
 
     @Override
     public void onError(Exception e) {
         PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
-        pc.sendMessage("Erreur voir console");
+        pc.sendMessage("Erreur voir console").queue();
         e.printStackTrace();
     }
 }

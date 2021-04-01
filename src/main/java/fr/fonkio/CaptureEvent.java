@@ -58,7 +58,7 @@ public class CaptureEvent {
                 break;
             case 3:
                 map = "AirShip";
-                image = "https://www.atrium-sud.fr/documents/382981/118555141/logo+a+venir+bientot.png/fdcf83cd-bc74-4325-98c2-8183b210c486";
+                image = "";
                 break;
         }
         field = new MessageEmbed.Field("", "", true);
