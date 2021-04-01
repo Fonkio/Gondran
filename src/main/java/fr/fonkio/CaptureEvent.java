@@ -58,7 +58,7 @@ public class CaptureEvent {
                 break;
             case 3:
                 map = "AirShip";
-                image = "";
+                image = "https://filmdaily.co/wp-content/uploads/2020/10/Polus-lede-1300x899.jpg";
                 break;
         }
         field = new MessageEmbed.Field("", "", true);
