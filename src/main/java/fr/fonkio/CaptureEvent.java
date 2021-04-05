@@ -56,10 +56,12 @@ public class CaptureEvent {
                 map = "Polus";
                 image = "https://filmdaily.co/wp-content/uploads/2020/10/Polus-lede-1300x899.jpg";
                 break;
-            case 3:
+            case 4:
                 map = "AirShip";
-                image = "https://filmdaily.co/wp-content/uploads/2020/10/Polus-lede-1300x899.jpg";
+                image = "https://www.pockettactics.com/wp-content/uploads/2021/04/among-us-airship-map-2-900x506.jpg";
                 break;
+            default:
+                throw new IllegalArgumentException("Map non reconnue : ID = "+jsonObject.getInt("Map"));
         }
         field = new MessageEmbed.Field("", "", true);
         eb.addField(field);

@@ -148,15 +148,14 @@ public class GondranListener implements EventListener {
             data.setTextChannel(genericEvent.getTextChannel());
             data.setVoiceChannel(data.getAuthor().getVoiceState().getChannel());
             String ip = message.replace(":start ", "");
+            data.getTextChannel().sendMessage("Connexion du bot en cours ...").queue();
             try {
+
                 data.setClient(new ClientAU(new URI("ws://"+ip+":42069/api"), new CaptureEvent(data), this.data));
                 data.getClient().connect();
                 genericEvent.getMessage().delete().queue();
-                PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
-                pc.sendMessage("Connecté ! ").queue();
             } catch (URISyntaxException e) {
-                PrivateChannel pc = data.getAuthor().getUser().openPrivateChannel().complete();
-                pc.sendMessage("Erreur ! Voir console").queue();
+                data.getTextChannel().sendMessage("Echec de la connexion ! Voir console").queue();
                 e.printStackTrace();
             }
         } else if (message.startsWith(":add ")) {
@@ -187,6 +186,24 @@ public class GondranListener implements EventListener {
             data.setPool(genericEvent.getChannel().sendMessage(poolUpdate().build()).complete());
             data.getPool().addReaction("➕").queue();
             data.getPool().addReaction("➖").queue();
+        } else if (message.startsWith(":stop")) {
+            genericEvent.getMessage().delete().queue();
+            data.getClient().close();
+            data.getTextChannel().sendMessage("Bot stoppé !");
+        } else if (message.startsWith(":help")) {
+            genericEvent.getMessage().delete().queue();
+            EmbedBuilder eb = new EmbedBuilder();
+            eb.setTitle("Liste des commandes");
+            String prefix = ":";
+            eb.addBlankField(false);
+            eb.addField(prefix+"start [Adresse]", "Lance la connexion sur l'API AmongUsCapture (penser à ouvrir le port 42069)", false);
+            eb.addField(prefix+"add [Pseudo en jeu]", "Ajouter une personne qui n'est pas dans la liste / déconnectée", false);
+            eb.addField(prefix+"rm [Pseudo en jeu]", "Supprimer une personne de la partie", false);
+            eb.addField(prefix+"unmute", "Demute tout le monde en cas de problème", true);
+            eb.addField(prefix+"poll", "Lance un sondage", true);
+            eb.addField(prefix+"stop", "Déconnecte le bot de l'API", true);
+            eb.setColor(Color.MAGENTA);
+            genericEvent.getChannel().sendMessage(eb.build()).queue();
         }
     }
 }
