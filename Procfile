@@ -1,1 +1,1 @@
-Worker: java -jar amau-1.1.jar
+Worker: java -jar AmongUsPoll-2.0.jar
