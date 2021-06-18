@@ -1,5 +1,4 @@
-# Gondran & Dorald
-Bot Discord Among Us qui permet de mute et rendre sourd tout les joueurs pendant la partie d'among us afin que les morts puissent parler entre eux,
-ils sont mute automatiquement pendant les phases "meeting" <br/><br/>
-Fonctionne avec AmongUs capture : <br/>
-https://github.com/automuteus/amonguscapture/releases
+# Gondran
+Bot Discord Among Us qui permet de réaliser des sondages pour réserver des places pour faire une partie
+
+![image](https://user-images.githubusercontent.com/28084726/122606762-bdde1300-d079-11eb-91b0-4b358a4d64de.png)
