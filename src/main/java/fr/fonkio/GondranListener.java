@@ -48,6 +48,7 @@ public class GondranListener implements EventListener {
                         data.getPoolResult().put(event.getMember(), 1);
                     }
                     data.setNbPlaceReservee(data.getNbPlaceReservee()+1);
+                    event.deferEdit().queue();
                     ma = data.getPool().editMessage(poolUpdate(event.getUser(), PoolStatus.JOIN).build());
                     addButton(ma).queue();
                     break;
@@ -59,6 +60,7 @@ public class GondranListener implements EventListener {
                             data.getPoolResult().remove(event.getMember());
                         }
                         data.setNbPlaceReservee(data.getNbPlaceReservee()-1);
+                        event.deferEdit().queue();
                         ma = data.getPool().editMessage(poolUpdate(event.getUser(), PoolStatus.LEAVE).build());
                         addButton(ma).queue();
                     }
@@ -70,12 +72,16 @@ public class GondranListener implements EventListener {
     private MessageAction addButton(MessageAction ma) {
         List<Component> buttons = new ArrayList<>();
 
-        Button btn = Button.success("reserver","+1 | Réserver");
+        Button btnReserver = Button.success("reserver","+1 | Réserver");
         if (data.getNbPlaceReservee() >= 15) {
-            btn = btn.asDisabled();
+            btnReserver = btnReserver.asDisabled();
         }
-        buttons.add(btn);
-        buttons.add(Button.danger("annuler","-1 | Se désinscrire"));
+        buttons.add(btnReserver);
+        Button btnAnnuler = Button.danger("annuler","-1 | Se désinscrire");
+        if(data.getNbPlaceReservee() <= 0) {
+            btnAnnuler = btnAnnuler.asDisabled();
+        }
+        buttons.add(btnAnnuler);
         ma.setActionRow(buttons);
         return ma;
     }
@@ -95,16 +101,17 @@ public class GondranListener implements EventListener {
         if (data.getPoolResult().isEmpty()) {
             MessageEmbed.Field field = new MessageEmbed.Field("Aucun joueur", "", false);
             eb.addField(field);
-            return eb;
-        }
-        for (Member m : data.getPoolResult().keySet()) {
-            int nb = data.getPoolResult().get(m);
-            MessageEmbed.Field field = new MessageEmbed.Field(m.getEffectiveName(), "Réserve "+data.getPoolResult().get(m)+" place"+(nb>1?"s":""), false);
-            eb.addField(field);
 
+        } else {
+            for (Member m : data.getPoolResult().keySet()) {
+                int nb = data.getPoolResult().get(m);
+                MessageEmbed.Field field = new MessageEmbed.Field(m.getEffectiveName(), "Réserve "+data.getPoolResult().get(m)+" place"+(nb>1?"s":""), false);
+                eb.addField(field);
+            }
         }
         eb.addBlankField(false);
-        MessageEmbed.Field field = new MessageEmbed.Field("Nombre de places", data.getNbPlaceReservee()+"/15 (Il reste "+(15-data.getNbPlaceReservee())+" place"+((15-data.getNbPlaceReservee())>1?"s":"")+")"+ ((user != null)?"\n\n**Dernière action :**":""), false);
+
+        MessageEmbed.Field field = new MessageEmbed.Field("Nombre de places", data.getNbPlaceReservee()+"/15 (Il reste "+(15-data.getNbPlaceReservee())+" place"+((15-data.getNbPlaceReservee())>1?"s":"")+")\n\n**Dernière action :**", false);
         eb.addField(field);
         return eb;
     }
@@ -118,7 +125,7 @@ public class GondranListener implements EventListener {
             event.getMessage().delete().queue();
             data.setPoolResult(new HashMap<>());
             data.setNbPlaceReservee(0);
-            event.getChannel().sendMessage(event.getGuild().getRoleById(789948897698381824l).getAsMention()).queue();
+            //event.getChannel().sendMessage(event.getGuild().getRoleById(789948897698381824l).getAsMention()).queue();
             MessageAction ma = event.getChannel().sendMessage(poolUpdate(event.getAuthor(), PoolStatus.CREATE).build());
             data.setPool(addButton(ma).complete());
         }
