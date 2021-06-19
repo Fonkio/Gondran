@@ -125,7 +125,7 @@ public class GondranListener implements EventListener {
             event.getMessage().delete().queue();
             data.setPoolResult(new HashMap<>());
             data.setNbPlaceReservee(0);
-            //event.getChannel().sendMessage(event.getGuild().getRoleById(789948897698381824l).getAsMention()).queue();
+            event.getChannel().sendMessage(event.getGuild().getRoleById(789948897698381824l).getAsMention()).queue();
             MessageAction ma = event.getChannel().sendMessage(poolUpdate(event.getAuthor(), PoolStatus.CREATE).build());
             data.setPool(addButton(ma).complete());
         }
