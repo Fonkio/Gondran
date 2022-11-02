@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>fr.fonkio</groupId>
-  <artifactId>AmongUsPoll</artifactId>
-  <version>2.2.0</version>
+  <artifactId>Gondran</artifactId>
+  <version>2.2.1</version>
 
-  <name>AmongUsPoll</name>
+  <name>Gondran</name>
   <url>https://github.com/Fonkio/Gondran-Dorald</url>
 
   <properties>

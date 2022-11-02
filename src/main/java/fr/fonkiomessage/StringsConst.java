@@ -11,7 +11,7 @@ public class StringsConst {
     public static final String LEAVE_POLL = "%s vient de libérer une place";
     public static final String CREATE_POLL = "%s viens de lancer le sondage";
     public static final String WHO_AMONGUS = "Qui veut Among Us ?";
-    public static final String BOT_ACTIVITY = "AmongUsBot \uD83C\uDF0C                                                                                  \nCréé par Fonkio";
+    public static final String BOT_ACTIVITY = "/poll \uD83C\uDF0C                               \nCréé par Fonkio";
     public static final String PLAYER_LIST = "Liste des joueurs présents";
     public static final String POLL_INSTRUCTION = "Pour t'ajouter ou te retirer, cliques sur les boutons\n" +
             "Tu peux cliquer plusieurs fois pour réserver des places à plusieurs personnes";
