@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class Poll {
 
+    private final String gameName;
+    private final long maxPlayer;
     private int nbReserved = 0;
     private Member lastActionAuthor;
     private PollActionEnum lastAction;
@@ -19,14 +21,16 @@ public class Poll {
 
     private String messageId;
 
-    public Poll(Member author) {
+    public Poll(Member author, String gameName, long maxPlayer) {
         this.lastActionAuthor = author;
         this.lastAction = PollActionEnum.CREATE;
         this.result = new HashMap<>();
+        this.gameName = gameName;
+        this.maxPlayer = maxPlayer;
     }
 
     public void register(Member member) throws ReservationException {
-        if (nbReserved == Gondran.MAX_RESERVATION) {
+        if (nbReserved == maxPlayer) {
             throw new ReservationException(StringsConst.NO_MORE_SIT);
         }
         int newAmount;
@@ -60,13 +64,13 @@ public class Poll {
     public EmbedBuilder getPoolEmbed() {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setColor(Color.GREEN);
-        eb.setAuthor(StringsConst.WHO_AMONGUS);
+        eb.setAuthor(String.format(StringsConst.WHO_AMONGUS, gameName));
         eb.setTitle(StringsConst.PLAYER_LIST);
         eb.setDescription(StringsConst.POLL_INSTRUCTION);
         eb.setFooter(String.format(lastAction.getMessage(), lastActionAuthor.getEffectiveName()), lastActionAuthor.getEffectiveAvatarUrl());
 
 
-        eb.setThumbnail("https://assets.letemps.ch/sites/default/files/styles/article_detail_mobile/public/media/2020/12/11/file7dl1zw2zdso10nejy3iz.jpg?itok=JUndPsxW");
+        eb.setThumbnail("https://cdn.discordapp.com/attachments/789557442840363018/1288260161378455703/00027186-fcc0-40b9-a704-9e8d864c06c2.jpg?ex=66f48945&is=66f337c5&hm=055a1f45c87c83a70bcb01a615089c56a70943045000fd3ab2be3e07d6cadbb6&");
         eb.addBlankField(false);
 
         for (Member m : result.keySet()) {
@@ -82,7 +86,7 @@ public class Poll {
         }
         eb.addBlankField(false);
 
-        MessageEmbed.Field field = new MessageEmbed.Field("Nombre de places", nbReserved+"/"+Gondran.MAX_RESERVATION+" (Il reste "+(15-nbReserved)+" place"+((Gondran.MAX_RESERVATION-nbReserved)>1?"s":"")+")\n\n**Dernière action :**", false);
+        MessageEmbed.Field field = new MessageEmbed.Field("Nombre de places", nbReserved+"/"+maxPlayer+" (Il reste "+(maxPlayer-nbReserved)+" place"+((maxPlayer-nbReserved)>1?"s":"")+")\n\n**Dernière action :**", false);
         eb.addField(field);
         return eb;
     }

@@ -10,8 +10,8 @@ public class StringsConst {
     public static final String JOIN_POLL = "%s vient de réserver une place";
     public static final String LEAVE_POLL = "%s vient de libérer une place";
     public static final String CREATE_POLL = "%s viens de lancer le sondage";
-    public static final String WHO_AMONGUS = "Qui veut Among Us ?";
-    public static final String BOT_ACTIVITY = "/poll \uD83C\uDF0C                               \nCréé par Fonkio";
+    public static final String WHO_AMONGUS = "Qui veut jouer à %s ?";
+    public static final String BOT_ACTIVITY = "/poll";
     public static final String PLAYER_LIST = "Liste des joueurs présents";
     public static final String POLL_INSTRUCTION = "Pour t'ajouter ou te retirer, cliques sur les boutons\n" +
             "Tu peux cliquer plusieurs fois pour réserver des places à plusieurs personnes";
@@ -19,7 +19,8 @@ public class StringsConst {
     public static final String UNREGISTER_BUTTON = " | Se désinscrire";
     public static final String ERROR = "Erreur";
     public static final String OLD_POLL = "Vous venez de répondre à un sondage qui n'est plus actif !";
-
+    public static final String ILLEGALL_INTEGER_ARGUMENT = "Merci d'indiquer un nombre valide (entre 1 et 25)";
+    public static final String ILLEGALL_STRING_ARGUMENT = "Merci d'indiquer un nom de jeu valide (entre 1 et 40 caractères)";
     public static final Emoji PLUS_EMOJI = Emoji.fromUnicode("➕");
 
     public static final Emoji MINUS_EMOJI = Emoji.fromUnicode("➖");

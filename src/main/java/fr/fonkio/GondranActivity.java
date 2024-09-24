@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.RichPresence;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.entities.emoji.EmojiUnion;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class GondranActivity implements Activity {
     @Override
@@ -27,10 +29,24 @@ public class GondranActivity implements Activity {
     public String getName() {
         return StringsConst.BOT_ACTIVITY;
     }
+
+    @Nullable
+    @Override
+    public String getState() {
+        return null;
+    }
+
     @Override
     public EmojiUnion getEmoji() {
         return Emoji.fromFormatted("milky_way");
     }
+
+    @NotNull
+    @Override
+    public Activity withState(@Nullable String s) {
+        return null;
+    }
+
     @Override
     public RichPresence asRichPresence() {
         return null;

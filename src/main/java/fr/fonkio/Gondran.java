@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
@@ -19,7 +20,6 @@ public class Gondran {
 
     public static Configuration CONFIGURATION;
     public static Map<Guild, Poll> POLL_DATA = new HashMap<>();
-    public static int MAX_RESERVATION = 15;
     private static JDA jda;
 
     static {
@@ -42,6 +42,8 @@ public class Gondran {
         jda.getPresence().setActivity(act);
         jda.updateCommands().addCommands(
                 Commands.slash(IdEnum.COMMAND_POLL.getId(), StringsConst.COMMAND_POLL_DESC)
+                        .addOption(OptionType.STRING, "nom-jeu", "Nom du jeu à proposer", true)
+                        .addOption(OptionType.INTEGER, "nb-joueurs-max", "Nombre de joueurs max", true)
         ).queue();
         System.out.println("Bot connecté");
         CONFIGURATION.save();
